@@ -15,3 +15,4 @@ Imports:
   MASS
 Depends:
     R (>= 3.2.0)
+URL: https://github.com/alishinski/AutoModel

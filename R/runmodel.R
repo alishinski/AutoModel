@@ -116,7 +116,7 @@ model_output <- function(models){
   abline(0,1)
   cat("Model change statistics\n")
   # Compares the models between each block of predictors
-  for(i in 1:(length(models) - 1)){
+  for (i in 1:(length(models) - 1)){
     modelCompare(models[[i]], models[[i + 1]])
   }
   cat("Model including all predictors\n")
