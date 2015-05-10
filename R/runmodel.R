@@ -1,34 +1,16 @@
-library(lmtest)
-library(datasets)
-library(MASS)
-library(lmSupport)
-library(roxygen2)
-library(devtools)
-library(stringr)
-
-##tests
-forms <- create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))
-mods <- create_model_objects(forms, freeny)
-assumptions_check(mods[[2]])
-model_output(mods)
-runmodel("y", c("lag.quarterly.revenue"), c("price.index", "income.level"), dataset=freeny)
-
-### Extra stuff that's to be implemented later
-#sort(stdres(lm(mods[[2]])), decreasing = T)
-#sort(standresids, decreasing = T)
-#res <- sort(abs(stdres(lm(mods[[2]]))), decreasing = T)
-#res
-#vartransform <- function(model){
-#  shapiro.test(response)$p.value
-#}
-
-### MODEL OUTPUT
-for(i in 1:(length(mods) - 1)){
-  modelCompare(mods[[i]], mods[[i + 1]])
-}
-
-### Main model function
-runmodel <- function(outcome, block1, ..., dataset, transform.outcome=F){
+#' Automated Multiple Regression Modelling
+#'
+#' @param outcome The dependent variable of the hierarchical model
+#' @param block1 A character vector, with names of variables. The first block of independent variables.
+#' @param ...  A character vector, with names of variables. Subsequent blocks of independent variables.
+#' @param dataset A data frame containing variables refered to in \code{formulas}, passed to data argument of \code{lm}
+#' @param transform.outcome A boolean. If TRUE, a variable transformation of the outcome is substituted in the final model if outcome is non-normal.
+#' @details Calls other functions to generate model objects and test them, given specified model parameters and other options.  Formatted output is produced via \code{model_output}
+#' @examples
+#' runmodel("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))
+#'
+run_model <- function(outcome, block1, ..., dataset, transform.outcome=F){
+  # Main function that calls the others to generate model objects, and test and summarize those model objects
   forms <- create_formula_objects(outcome, block1, ...)
   models <- create_model_objects(forms, dataset)
   top_model <- models[[length(models)]]
@@ -36,8 +18,19 @@ runmodel <- function(outcome, block1, ..., dataset, transform.outcome=F){
   model_output(models)
 }
 
-### Creates formulas for hierarchical models
+#' Hierarchical Formula Generation
+#'
+#' @param outcome The dependent variable of the hierarchical model
+#' @param block1 A character vector, with names of variables. The first block of independent variables.
+#' @param ...  A character vector, with names of variables. Subsequent blocks of independent variables.
+#' @return A list of \code(lm) formulas
+#' @examples
+#' create_formula_objects("y", c("lag.quarterly.revenue"))
+#' create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))
+#'
 create_formula_objects <- function(outcome, block1, ...){
+  # Creates formulas for hierarchical models from blocks of predictors
+  # Pass character vectors with names of independent variables corresponding to each block
   blocks <- list(...)
   formula <- as.formula(paste(outcome, "~", paste(block1, collapse="+")))
   formulas <- list()
@@ -54,21 +47,29 @@ create_formula_objects <- function(outcome, block1, ...){
   }
 }
 
-### Creates all of the hierarchical models from the created formulas
+#' Hierarchical Regression Model Generation
+#'
+#' @param formulas A set of \code{lm} formulas, created with create_formula_objects
+#' @param dataset A data frame containing variables refered to in \code{formulas}, passed to data argument of \code{lm}
+#' @return A list of \code{lm} model objects
+#' @examples
+#' create_model_objects(create_formula_objects("y", c("lag.quarterly.revenue")), dataset = freeny)
+#' create_model_objects(freeny_model_formulas, dataset = freeny)
+#'
 create_model_objects <- function(formulas, dataset){
+  # Creates all of the hierarchical models from a set of formulas created with create_formula_objects
   models <- lapply(X = forms, data=freeny, lm)
 }
 
-#1: durbin/watson
-#2a: partial plots, linearity
-#2b: unstd predicted values vs studentized residuals, linearity
-#3: unstd predicted values vs studentized residuals, homogeneity
-#4: Correlations, tolerance, VIF
-#5: Std residual +- 3SD, cooks D, leverage
-#6: Normality of residual distribution, histogram, PP plot
-
+#' Multiple Regression Assumption Checking
+#'
+#' @param model A \code{lm} model object.  \code{run_model} automatically calls this function for the model with all blocks of predictors included.
+#' @details Creates objects related to multiple regression assumption checking.  These objects are used by \code{model_output} to produce readable output.
+#' @examples
+#' assumptions_check(freeny_model)
+#'
 assumptions_check <- function(model){
-  ### GATHERING INFORMATION FOR ASSUMPTION CHECKING
+  # Creates objects needed for assumption checking and output printing
   dw <<- dwtest(model)$statistic
   dwp <<- dwtest(model)$p.value
   #partplots <- avPlots(model)
@@ -83,7 +84,15 @@ assumptions_check <- function(model){
   probDist <<- pnorm(stdres(model))
 }
 
+#' Multiple Regression Assumption Checking
+#'
+#' @param models A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.
+#' @details Creates plots and text output to summarize models and check assumptions via objects created by \code{assumptions_check}.  Uses full model with all predictors.
+#' @examples
+#' model_check(freeny_models)
+#'
 model_output <- function(models){
+  # Produces plots and prints relevant messages and outputs.
   model <- models[[length(models)]]
   cat("Durbin-Watson = ", dw, "p value = ", dwp, "\n")
   cat("Partial Regression plots (all relationships should be linear):\n")
@@ -111,7 +120,7 @@ model_output <- function(models){
   plot(ppoints(length(stdres(model))), sort(probDist), main = "PP Plot", xlab = "Observed Probability", ylab = "Expected Probability")
   abline(0,1)
   cat("Model change statistics\n")
-  ### MODEL OUTPUT
+  # Compares the models between each block of predictors
   for(i in 1:(length(models) - 1)){
     modelCompare(models[[i]], models[[i + 1]])
   }

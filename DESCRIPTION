@@ -1,10 +1,17 @@
 Package: AutoModel
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Automated Hierarchical Multiple Regression with Assumptions Checking
 Version: 0.1
-Date: 2015-04-28
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Date: 2015-05-09
+Author: Alex Lishinski
+Maintainer: Alex Lishinski <alexlishinski@gmail.com>
+Description: A set of functions that automates the process and produces reasonable output for hierarchical multiple regression models.  It allows you to specify predictor blocks, from which it generates all of the linear models, and checks the assumptions of the model, producing the requisite plots and statistics to allow you to judge the suitability of the model.
+License: GPL-3
 LazyData: TRUE
+Imports:
+  lmtest,
+  car,
+  lmSupport,
+  MASS
+Depends:
+    R (>= 3.2.0)
