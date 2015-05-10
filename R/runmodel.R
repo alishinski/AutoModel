@@ -96,8 +96,6 @@ model_output <- function(models){
   model <- models[[length(models)]]
   cat("Durbin-Watson = ", dw, "p value = ", dwp, "\n")
   cat("Partial Regression plots (all relationships should be linear):\n")
-  ##partplots
-  ##cat("Plot of studentized residuals (should be linear and homogenous across predicted values)\n")
   residplot
   cat("Correlation Matrix for model (correlation >.70 indicates severe multicollinearity)\n")
   print(cormat)
@@ -108,15 +106,12 @@ model_output <- function(models){
   print(res)
   cat("Cook's distance (values >.2 problematic):\n")
   print(sort(cdists, decreasing = T))
-  ##cat("Leverage Plot\n")
   levplot
-  ##cat("Plot of standardized model residuals\n")
   residplot
   mean(stdres(model))
   sd(stdres(model))
   curve(dnorm(x,mean(stdres(model)), sd(stdres(model))), col="darkblue", lwd=2, add=TRUE, yaxt="n")
   cat("Normality of standardized model residuals:", " Shapiro-Wilk (p-value): ", normresids, "\n")
-  ##cat("PP plot:")
   plot(ppoints(length(stdres(model))), sort(probDist), main = "PP Plot", xlab = "Observed Probability", ylab = "Expected Probability")
   abline(0,1)
   cat("Model change statistics\n")

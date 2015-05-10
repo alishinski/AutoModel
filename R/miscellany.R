@@ -37,3 +37,10 @@ for(i in 1:(length(mods) - 1)){
 #4: Correlations, tolerance, VIF
 #5: Std residual +- 3SD, cooks D, leverage
 #6: Normality of residual distribution, histogram, PP plot
+
+##leftovers from the output function
+##cat("Plot of standardized model residuals\n")
+##cat("Leverage Plot\n")
+##partplots
+##cat("Plot of studentized residuals (should be linear and homogenous across predicted values)\n")
+##cat("PP plot:")
