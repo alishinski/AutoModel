@@ -14,13 +14,13 @@ create_formula_objects(outcome, block1, ...)
 \item{...}{A character vector, with names of variables. Subsequent blocks of independent variables.}
 }
 \value{
-A list of \code(lm) formulas
+A list of \code{lm} formulas
 }
 \description{
 Hierarchical Formula Generation
 }
 \examples{
-create_formula_objects("y", c("lag.quarterly.revenue"))
-create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))
+\dontrun{create_formula_objects("y", c("lag.quarterly.revenue"))}
+\dontrun{create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))}
 }
 

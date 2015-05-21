@@ -16,6 +16,6 @@ Multiple Regression Assumption Checking
 Creates plots and text output to summarize models and check assumptions via objects created by \code{assumptions_check}.  Uses full model with all predictors.
 }
 \examples{
-model_check(freeny_models)
+\dontrun{model_check(freeny_models)}
 }
 

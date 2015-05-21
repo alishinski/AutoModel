@@ -1,1 +1,18 @@
-exportPattern("^[[:alpha:]]+")
+importFrom(car, vif, leveragePlots)
+importFrom(lmtest, dwtest)
+importFrom(MASS, stdres, studres)
+importFrom(lmSupport, modelCompare)
+importFrom(broom, tidy)
+import(pryr)
+import(survival)
+
+export(
+run_model,
+create_formula_objects,
+create_model_objects,
+assumptions_check,
+model_output,
+model_summary_table,
+model_coefficient_table,
+modelCompareMod
+)

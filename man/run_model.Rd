@@ -24,6 +24,6 @@ Automated Multiple Regression Modelling
 Calls other functions to generate model objects and test them, given specified model parameters and other options.  Formatted output is produced via \code{model_output}
 }
 \examples{
-runmodel("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))
+\dontrun{runmodel("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))}
 }
 

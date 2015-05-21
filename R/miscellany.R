@@ -1,20 +1,20 @@
-library(lmtest)
-library(datasets)
-library(MASS)
-library(lmSupport)
-library(roxygen2)
-library(devtools)
-library(stringr)
-install.packages("devtools")
-install.packages("git2r")
-library(lintr)
+#library(lmtest)
+#library(datasets)
+#library(MASS)
+#library(lmSupport)
+#library(roxygen2)
+#library(devtools)
+#library(stringr)
+#install.packages("devtools")
+#install.packages("git2r")
+#library(lintr)
 
 ##tests
-forms <- create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))
-mods <- create_model_objects(forms, freeny)
-assumptions_check(mods[[2]])
-model_output(mods)
-runmodel("y", c("lag.quarterly.revenue"), c("price.index", "income.level"), dataset=freeny)
+#forms <- create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))
+#mods <- create_model_objects(forms, freeny)
+#assumptions_check(mods[[2]])
+#model_output(mods)
+#runmodel("y", c("lag.quarterly.revenue"), c("price.index", "income.level"), dataset=freeny)
 
 ### Extra stuff that's to be implemented later
 #sort(stdres(lm(mods[[2]])), decreasing = T)
@@ -26,9 +26,9 @@ runmodel("y", c("lag.quarterly.revenue"), c("price.index", "income.level"), data
 #}
 
 ### MODEL OUTPUT
-for(i in 1:(length(mods) - 1)){
-  modelCompare(mods[[i]], mods[[i + 1]])
-}
+#for(i in 1:(length(mods) - 1)){
+#  modelCompare(mods[[i]], mods[[i + 1]])
+#}
 
 #1: durbin/watson
 #2a: partial plots, linearity

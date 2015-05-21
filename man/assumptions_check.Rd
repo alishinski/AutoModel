@@ -16,6 +16,6 @@ Multiple Regression Assumption Checking
 Creates objects related to multiple regression assumption checking.  These objects are used by \code{model_output} to produce readable output.
 }
 \examples{
-assumptions_check(freeny_model)
+\dontrun{assumptions_check(freeny_model)}
 }
 
