@@ -1,0 +1,44 @@
+---
+title: "Introduction to AutoModel"
+author: "Alex Lishinski"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{AutoModel}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+AutoModel is an R package that makes it easier to create hierarchical multiple regression models, check model assumptions and get appropriate output.
+
+With hierarchical multiple regression models, one wants model statistics and coefficients for each successive iteration of the model.  There are ways to do this in R of course, but they aren't particularly convenient when one wants to get all of the model overall statistics and coefficients for each iteration of the model, in one place in an easy to read format.  Furthermore, this package makes it easy to check all of the standard multiple regression assumptions for a model without having to write any additional code, which makes it very easy to run many different versions of a model in quick succession.
+
+## Running a basic Hierarchical Multiple Regression Model
+
+With the main `run_model` function, one can easily review all model statistics, coefficients, and check assumptions for a Hierarchical Multiple Regression model with predictors entered progressively in blocks.
+
+For the following example, the built in dataset `mtcars` is used to build a hierarchical multiple regression model with 3 blocks of predictors.
+
+Blocks of predictors are specified by character vectors containing the variable names.  The outcome is simply a string of the variable name.  The dataset name must also be specified.
+
+```{r, fig.width=6, fig.height=5}
+library(AutoModel)
+run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars)
+```
+
+## Creating Hierarchical Models
+
+Underlying the `run_model` function is a function to create the hierarchical models.  The `create_model_objects` function creates a list of `lm` objects that `run_model` uses to prepare output.  This function can be used separately to create model objects that can be used for the further purposes of the user that go beyond what is enabled by the `run_model` function.
+
+This function works in combination with the `create_formula_objects`, which creates a list containing the hierarchical model formulas from the character vectors of predictors.
+
+An example of how this works is as follows.  The parameters for `create_formula_objects` are the outcome and predictors, whereas the dataset is passed to `create_model_objects`.
+
+```{r}
+formulas <- create_formula_objects("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"))
+models <- create_model_objects(formulas, dataset = mtcars)
+models
+```
+
+
+  

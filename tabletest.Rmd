@@ -1,0 +1,40 @@
+---
+title: "Untitled"
+output: pdf_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+% latex table generated in R 3.2.0 by xtable 1.7-4 package
+% Mon May 18 16:39:47 2015
+\begin{table}[ht]
+\centering
+\begin{tabular}{|r|rrrrr|}
+  \hline
+  & Term & Estimate & Std..Error & t.value & Pr...t.. \\ 
+  \hline
+  Model 1 & (Intercept) & 0.04 & 0.10 & 0.41 & 0.68 \\ 
+  & lag.quarterly.revenue & 1.00 & 0.01 & 91.44 & 0.00 \\ 
+  \hline
+  Model 2 & (Intercept)1 & 4.97 & 1.24 & 4.01 & 0.00 \\ 
+  & lag.quarterly.revenue1 & 0.37 & 0.11 & 3.27 & 0.00 \\ 
+  & price.index & -0.82 & 0.17 & -4.77 & 0.00 \\ 
+  & income.level & 0.75 & 0.14 & 5.22 & 0.00 \\ 
+   \hline
+\end{tabular}
+\end{table}
+

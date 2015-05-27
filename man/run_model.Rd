@@ -4,7 +4,8 @@
 \alias{run_model}
 \title{Automated Multiple Regression Modelling}
 \usage{
-run_model(outcome, block1, ..., dataset, transform.outcome = F)
+run_model(outcome, block1, ..., dataset, type = "gaussian",
+  transform.outcome = F)
 }
 \arguments{
 \item{outcome}{The dependent variable of the hierarchical model}
@@ -14,6 +15,8 @@ run_model(outcome, block1, ..., dataset, transform.outcome = F)
 \item{...}{A character vector, with names of variables. Subsequent blocks of independent variables.}
 
 \item{dataset}{A data frame containing variables refered to in \code{formulas}, passed to data argument of \code{lm}}
+
+\item{type}{Family argument to pass to \code{glm}.  Specify "binomial" for binary logistic regression models.}
 
 \item{transform.outcome}{A boolean. If TRUE, a variable transformation of the outcome is substituted in the final model if outcome is non-normal.}
 }

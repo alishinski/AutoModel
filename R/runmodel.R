@@ -4,18 +4,25 @@
 #' @param block1 A character vector, with names of variables. The first block of independent variables.
 #' @param ...  A character vector, with names of variables. Subsequent blocks of independent variables.
 #' @param dataset A data frame containing variables refered to in \code{formulas}, passed to data argument of \code{lm}
+#' @param type Family argument to pass to \code{glm}.  Specify "binomial" for binary logistic regression models.
 #' @param transform.outcome A boolean. If TRUE, a variable transformation of the outcome is substituted in the final model if outcome is non-normal.
 #' @details Calls other functions to generate model objects and test them, given specified model parameters and other options.  Formatted output is produced via \code{model_output}
 #' @examples
 #' \dontrun{runmodel("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))}
 #' @export
-run_model <- function(outcome, block1, ..., dataset, transform.outcome=F){
+run_model <- function(outcome, block1, ..., dataset, type="gaussian", transform.outcome=F){
   # Main function that calls the others to generate model objects, and test and summarize those model objects
+  if(type == "binomial"){
+    forms <- create_formula_objects(outcome, block1, ...)
+    models <- create_model_objects(forms, dataset, type="binomial")
+    model_output_binomial(models)
+  }else{
   forms <- create_formula_objects(outcome, block1, ...)
   models <- create_model_objects(forms, dataset)
   top_model <- models[[length(models)]]
   assumptions_check(top_model)
   model_output(models)
+  }
 }
 
 #' Hierarchical Formula Generation
@@ -51,15 +58,20 @@ create_formula_objects <- function(outcome, block1, ...){
 #'
 #' @param formulas A set of \code{lm} formulas, created with create_formula_objects
 #' @param dataset A data frame containing variables refered to in \code{formulas}, passed to data argument of \code{lm}
+#' @param type Family argument to pass to \code{glm}.  Specify "binomial" for binary logistic regression models.
 #' @return A list of \code{lm} model objects
 #' @examples
 #' \dontrun{create_model_objects(create_formula_objects("y", c("lag.quarterly.revenue")), dataset = freeny)}
 #' \dontrun{create_model_objects(freeny_model_formulas, dataset = freeny)}
 #' @export
-create_model_objects <- function(formulas, dataset){
+create_model_objects <- function(formulas, dataset, type="gaussian"){
+  if (type == "binomial") {
+    models <- lapply(X = formulas, data=dataset, glm, family="binomial")
+  } else {
   # Creates all of the hierarchical models from a set of formulas created with create_formula_objects
   if (length(formulas) < 2) stop("Your model contains just one block and is not hierarchical, consider lm")
   models <- lapply(X = formulas, data=dataset, lm)
+  }
 }
 
 #' Multiple Regression Assumption Checking
@@ -74,12 +86,12 @@ assumptions_check <- function(model){
   dw <<- lmtest::dwtest(model)$statistic
   dwp <<- lmtest::dwtest(model)$p.value
   #partplots <- avPlots(model)
-  residplot <<- plot(predict(model), MASS::studres(model), main="Residuals by Predicted value", xlab="Unstandardized Predicted Values", ylab="Studentized Residuals")
+  #residplot <<- plot(predict(model), MASS::studres(model), main="Residuals by Predicted value", xlab="Unstandardized Predicted Values", ylab="Studentized Residuals")
   cormat <<- cor(data.frame(lapply(model.frame(model), as.numeric)), use="pairwise.complete.obs")
   vifs <<- car::vif(model)
   standresids <<- MASS::stdres(model)
   cdists <<- cooks.distance(model)
-  levplot <<- car::leveragePlots(model)
+  #levplot <<- car::leveragePlots(model)
   #residplot <<- hist(standresids, prob=T, breaks = 30, main = "Plot of Std Residuals", xlab="Std Residuals")
   normresids <<- shapiro.test(standresids)$p.value
   probDist <<- pnorm(MASS::stdres(model))
@@ -94,11 +106,15 @@ assumptions_check <- function(model){
 #' @export
 model_output <- function(models){
   # Produces plots and prints relevant messages and outputs.
+  options(scipen = 100, digits = 4)
   model <- models[[length(models)]]
   cat("\n\nREGRESSION OUTPUT\n\n")
   cat("Durbin-Watson = ", dw, "p value = ", dwp, "\n\n")
   cat("Partial Regression plots (all relationships should be linear):\n\n")
-  residplot
+  car::avPlots(model)
+  cat("Plot of studentized residuals: uniform distibution across predicted values required")
+  plot(predict(model), MASS::studres(model), main="Residuals by Predicted value", xlab="Unstandardized Predicted Values", ylab="Studentized Residuals")
+  #residplot
   cat("Correlation Matrix for model (correlation >.70 indicates severe multicollinearity)\n\n")
   print(cormat)
   cat("\nVariance inflation factor (<10 desired):\n\n")
@@ -108,7 +124,7 @@ model_output <- function(models){
   print(res)
   cat("\nCook's distance (values >.2 problematic):\n\n")
   print(sort(cdists, decreasing = T))
-  levplot
+  #levplot
   #residplot
   hist(standresids, prob=T, breaks = 30, main = "Plot of Std Residuals", xlab="Std Residuals")
   distmean <- mean(MASS::stdres(model))
@@ -186,13 +202,57 @@ model_coefficient_table <- function(models){
   for(i in 2:length(models)){
     tables <- rbind(tables, cbind(Model = paste("Model", i), broom::tidy(models[[i]])))
   }
-  print(tables, row.names = F)
+  tables$p.value <- round(tables$p.value, digits = 4)
+  print(tables, row.names = F, digits = 4)
+}
+
+#' Binary Logistic Regression: Model Summary Output
+#'
+#' @param models A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.
+#' @details Creates output for results of hierarchical binary logisitic regression models.
+#' @examples
+#' \dontrun{model_output_binomial(mtcars_models)}
+#' @export
+model_output_binomial <- function(models) {
+  model_summary_table_binomial(models)
+  #model_coefficient_table_binomial(models)
+}
+
+#' Binary Logistic Regression: Summary Table Output
+#'
+#' @param models A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.
+#' @details Creates table output to summarize model coefficients for all models in a hierarchical binary logistic regression analysis.
+#' @examples
+#' \dontrun{model_coefficient_table(freeny_models)}
+#' @export
+model_summary_table_binomial <- function(models){
+  full_model <- models[[length(models)]]
+  full_model_summary <- summary(full_model)
+  full_model_table <- broom::tidy(full_model)
+  model_terms <- attr(full_model_summary$terms, "term.labels")
+  model_terms <- c("Constant", model_terms)
+  output_table <- data.frame(model_terms)
+  for(i in 1:length(models)){
+   model_summary <- summary(models[[i]])
+   model_table <- broom::tidy(models[[i]])
+   coefs <- model_table$estimate
+   SE <- model_table$std.error
+   df <- data.frame(coefs, SE)
+   if(nrow(df) < nrow(full_model_table)){
+   for(i in seq((nrow(df) + 1), (nrow(full_model_table)))){
+     df <- rowr::insertRows(df, data.frame(list('--', '--')), i)
+   }
+   }
+   output_table <- data.frame(output_table, df)
+  }
+  output_table
 }
 
 #' Modified modelCompare function from lmSupport
 #'
 #' @param ModelC A model \code{lm} object.
 #' @param ModelA A model \code{lm} object.
+#' @param printOutput Boolean parameter, if \code{TRUE}, print output is supressed from modelCompare function.
 #' @details This is a modification of the modelCompare function that allows print output to be suppressed.
 #' @export
 modelCompareMod <- function(ModelC, ModelA, printOutput = T) {

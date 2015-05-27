@@ -10,6 +10,8 @@ modelCompareMod(ModelC, ModelA, printOutput = T)
 \item{ModelC}{A model \code{lm} object.}
 
 \item{ModelA}{A model \code{lm} object.}
+
+\item{printOutput}{Boolean parameter, if \code{TRUE}, print output is supressed from modelCompare function.}
 }
 \description{
 Modified modelCompare function from lmSupport

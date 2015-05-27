@@ -1,0 +1,49 @@
+---
+title: "Ideas for Improvement"
+output: html_document
+---
+
+Feature Ideas for automodel:
+  
+Variable transformation option for outcomes 
+Model formulas listed under summary table
+show all output, or stop on a violated assumption
+output for glm logistic regression, with compact output formula
+spss output options (saving variables, different plot) maybe collapsed into one 'verbose' option.
+
+To do list:
+bookkeeping tasks:
+fix examples so they work (use the tests file)
+Clear up warnings and stuff from package check output
+get file exclude list clear
+fix the global variable situation with assumptions_check
+
+code tasks:
+revise and refactor if possible, all the functions 
+Eliminate the use of the modified lmSupport function, by replacing it with my own attempt to replicate that object creation
+Check the accuracy of partial regression plots (in fact, compare 1-1 with spss output for the same model)
+Allow to select number of data points to display to check for outliers, with default value that is low.
+
+Other:
+create an invisible list return object from the main function like lm, or modelCompare
+
+MEGA TASK ::::::
+IS THERE A WAY TO MAKE KNITR OUTPUT DOCUMENTS PRETTY??????  
+IE. In lieu of the standard output tables in the code output windows, can I have a nicely formatted latex-y table ?
+
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For 
+
+```{r}
+summary(cars)
+write.csv(freeny, file="freeny.csv")
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
