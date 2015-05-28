@@ -12,3 +12,14 @@
 #head(mtcars)
 
 #run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars)
+#modelstuff <- run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars)
+#test_mod <- lm(y ~ lag.quarterly.revenue, data = freeny)
+#test_mod_two <- lm(y ~ lag.quarterly.revenue + price.index, data= freeny)
+#attributes(test_mod_two)
+#attr(test_mod$coefficients, "names")
+#typeof(test_mod$coefficients)
+#test_mod$coefficients
+#typeof(as.data.frame(test_mod$coefficients))
+#modcomp <- modelCompareMod(test_mod, test_mod_two)
+#modelstuff$Checks$dw
+

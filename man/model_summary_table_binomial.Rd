@@ -16,6 +16,8 @@ Binary Logistic Regression: Summary Table Output
 Creates table output to summarize model coefficients for all models in a hierarchical binary logistic regression analysis.
 }
 \examples{
-\dontrun{model_coefficient_table(freeny_models)}
+formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"), c("drat"))
+mtcars_models <- create_model_objects(formulas, data=mtcars, type="binomial")
+\dontrun{model_summary_table_binomial(mtcars_models)}
 }
 

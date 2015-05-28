@@ -16,16 +16,12 @@ bookkeeping tasks:
 fix examples so they work (use the tests file)
 Clear up warnings and stuff from package check output
 get file exclude list clear
-fix the global variable situation with assumptions_check
 
 code tasks:
 revise and refactor if possible, all the functions 
 Eliminate the use of the modified lmSupport function, by replacing it with my own attempt to replicate that object creation
 Check the accuracy of partial regression plots (in fact, compare 1-1 with spss output for the same model)
-Allow to select number of data points to display to check for outliers, with default value that is low.
-
-Other:
-create an invisible list return object from the main function like lm, or modelCompare
+Allow to select number of data points to display to check for outliers, with default value that is low.  Or allow to save as a variable
 
 MEGA TASK ::::::
 IS THERE A WAY TO MAKE KNITR OUTPUT DOCUMENTS PRETTY??????  

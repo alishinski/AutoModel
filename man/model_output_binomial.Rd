@@ -16,6 +16,8 @@ Binary Logistic Regression: Model Summary Output
 Creates output for results of hierarchical binary logisitic regression models.
 }
 \examples{
-\dontrun{model_output_binomial(mtcars_models)}
+formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"), c("drat"))
+mtcars_models <- create_model_objects(formulas, data=mtcars, type="binomial")
+model_output_binomial(mtcars_models)
 }
 

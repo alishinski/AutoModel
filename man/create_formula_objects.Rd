@@ -20,7 +20,7 @@ A list of \code{lm} formulas
 Hierarchical Formula Generation
 }
 \examples{
-\dontrun{create_formula_objects("y", c("lag.quarterly.revenue"))}
-\dontrun{create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))}
+create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index"))
+create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))
 }
 

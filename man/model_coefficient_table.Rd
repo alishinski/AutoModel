@@ -16,6 +16,9 @@ Hierarchical regression: Coefficient table output
 Creates table output to summarize model coefficients for all models in a hierarchical regression analysis.
 }
 \examples{
-\dontrun{model_coefficient_table(freeny_models)}
+freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
+, c("price.index"))
+freeny_models <- create_model_objects(freeny_model_formulas, dataset = freeny)
+model_coefficient_table(freeny_models)
 }
 

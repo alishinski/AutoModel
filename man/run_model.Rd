@@ -18,7 +18,7 @@ run_model(outcome, block1, ..., dataset, type = "gaussian",
 
 \item{type}{Family argument to pass to \code{glm}.  Specify "binomial" for binary logistic regression models.}
 
-\item{transform.outcome}{A boolean. If TRUE, a variable transformation of the outcome is substituted in the final model if outcome is non-normal.}
+\item{transform.outcome}{A boolean. If TRUE, a variable transformation of the outcome is substituted in the final model if outcome is non-normal. NOT IMPLEMENTED YET.}
 }
 \description{
 Automated Multiple Regression Modelling
@@ -27,6 +27,6 @@ Automated Multiple Regression Modelling
 Calls other functions to generate model objects and test them, given specified model parameters and other options.  Formatted output is produced via \code{model_output}
 }
 \examples{
-\dontrun{runmodel("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))}
+run_model("y", c("lag.quarterly.revenue"), c("price.index", "income.level"), dataset=freeny)
 }
 

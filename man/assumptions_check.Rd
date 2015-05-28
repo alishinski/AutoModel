@@ -16,6 +16,10 @@ Multiple Regression Assumption Checking
 Creates objects related to multiple regression assumption checking.  These objects are used by \code{model_output} to produce readable output.
 }
 \examples{
-\dontrun{assumptions_check(freeny_model)}
+freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
+, c("price.index"))
+freeny_models <- create_model_objects(freeny_model_formulas, dataset = freeny)
+freeny_model <- freeny_models[[length(freeny_models)]]
+assumptions_check(freeny_model)
 }
 

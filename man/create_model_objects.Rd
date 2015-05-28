@@ -20,7 +20,10 @@ A list of \code{lm} model objects
 Hierarchical Regression Model Generation
 }
 \examples{
-\dontrun{create_model_objects(create_formula_objects("y", c("lag.quarterly.revenue")), dataset = freeny)}
-\dontrun{create_model_objects(freeny_model_formulas, dataset = freeny)}
+create_model_objects(create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index"))
+, dataset = freeny)
+freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
+, c("price.index"))
+create_model_objects(freeny_model_formulas, dataset = freeny)
 }
 
