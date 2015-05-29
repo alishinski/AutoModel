@@ -4,7 +4,7 @@
 \alias{model_output}
 \title{Multiple Regression Output}
 \usage{
-model_output(models, checkList = NULL, formulas)
+model_output(models, checkList = NULL, formulas, outliers = "all")
 }
 \arguments{
 \item{models}{A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.}
@@ -12,6 +12,8 @@ model_output(models, checkList = NULL, formulas)
 \item{checkList}{a list object created by \code{assumptions_check} used to create output.}
 
 \item{formulas}{Formula list produced by \code{create_formula_objects}, used for summary table.}
+
+\item{outliers}{Outlier option, select the number of observations to examine for outliers.}
 }
 \description{
 Multiple Regression Output

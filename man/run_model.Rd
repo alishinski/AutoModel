@@ -5,7 +5,7 @@
 \title{Automated Multiple Regression Modelling}
 \usage{
 run_model(outcome, block1, ..., dataset, type = "gaussian",
-  assumptions.check = T, transform.outcome = F)
+  assumptions.check = T, outliers.check = "all", transform.outcome = F)
 }
 \arguments{
 \item{outcome}{The dependent variable of the hierarchical model}
@@ -19,6 +19,8 @@ run_model(outcome, block1, ..., dataset, type = "gaussian",
 \item{type}{Family argument to pass to \code{glm}.  Specify "binomial" for binary logistic regression models.}
 
 \item{assumptions.check}{Boolean, if TRUE, then assumption checks are run and output is produced. If FALSE, only model summary and coefficient tables are produced.}
+
+\item{outliers.check}{Determines how many observations to display for outliers check.  Default is all observations.}
 
 \item{transform.outcome}{A boolean. If TRUE, a variable transformation of the outcome is substituted in the final model if outcome is non-normal. NOT IMPLEMENTED YET.}
 }
