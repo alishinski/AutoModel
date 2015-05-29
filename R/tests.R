@@ -12,8 +12,16 @@
 #head(mtcars)
 
 #run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars)
+#fasdf <- run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars, assumptions.check = F)
 #modelstuff <- run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars)
 #test_mod <- lm(y ~ lag.quarterly.revenue, data = freeny)
+#formula(test_mod)
+#print(formula(test_mod))
+#toStin
+#deparse(formula(test_mod))
+#RR <- "fasfd"
+#RR
+
 #test_mod_two <- lm(y ~ lag.quarterly.revenue + price.index, data= freeny)
 #attributes(test_mod_two)
 #attr(test_mod$coefficients, "names")

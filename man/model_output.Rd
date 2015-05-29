@@ -4,12 +4,14 @@
 \alias{model_output}
 \title{Multiple Regression Output}
 \usage{
-model_output(models, checkList)
+model_output(models, checkList = NULL, formulas)
 }
 \arguments{
 \item{models}{A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.}
 
 \item{checkList}{a list object created by \code{assumptions_check} used to create output.}
+
+\item{formulas}{Formula list produced by \code{create_formula_objects}, used for summary table.}
 }
 \description{
 Multiple Regression Output
@@ -23,6 +25,6 @@ freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
 freeny_models <- create_model_objects(freeny_model_formulas, dataset = freeny)
 freeny_model <- freeny_models[[length(freeny_models)]]
 checks <- assumptions_check(freeny_model)
-model_output(freeny_models, checks)
+model_output(freeny_models, checks, freeny_model_formulas)
 }
 

@@ -5,12 +5,13 @@
 #' @param ...  A character vector, with names of variables. Subsequent blocks of independent variables.
 #' @param dataset A data frame containing variables refered to in \code{formulas}, passed to data argument of \code{lm}
 #' @param type Family argument to pass to \code{glm}.  Specify "binomial" for binary logistic regression models.
+#' @param assumptions.check Boolean, if TRUE, then assumption checks are run and output is produced. If FALSE, only model summary and coefficient tables are produced.
 #' @param transform.outcome A boolean. If TRUE, a variable transformation of the outcome is substituted in the final model if outcome is non-normal. NOT IMPLEMENTED YET.
 #' @details Calls other functions to generate model objects and test them, given specified model parameters and other options.  Formatted output is produced via \code{model_output}
 #' @examples
 #' run_model("y", c("lag.quarterly.revenue"), c("price.index", "income.level"), dataset=freeny)
 #' @export
-run_model <- function(outcome, block1, ..., dataset, type="gaussian", transform.outcome=F){
+run_model <- function(outcome, block1, ..., dataset, type="gaussian", assumptions.check = T, transform.outcome=F){
   # Main function that calls the others to generate model objects, and test and summarize those model objects
   if(type == "binomial"){
     forms <- create_formula_objects(outcome, block1, ...)
@@ -20,8 +21,12 @@ run_model <- function(outcome, block1, ..., dataset, type="gaussian", transform.
   forms <- create_formula_objects(outcome, block1, ...)
   models <- create_model_objects(forms, dataset)
   top_model <- models[[length(models)]]
+  if(assumptions.check == T) {
   checks <- assumptions_check(top_model)
-  model_output(models, checks)
+  model_output(models, checks, forms)
+  } else {
+    model_output(models, formulas=forms)
+  }
   }
 }
 
@@ -106,6 +111,7 @@ assumptions_check <- function(model){
 #'
 #' @param models A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.
 #' @param checkList a list object created by \code{assumptions_check} used to create output.
+#' @param formulas Formula list produced by \code{create_formula_objects}, used for summary table.
 #' @details Creates plots and text output to summarize models and check assumptions via objects created by \code{assumptions_check}.  Uses full model with all predictors.
 #' @examples
 #' freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
@@ -113,11 +119,12 @@ assumptions_check <- function(model){
 #' freeny_models <- create_model_objects(freeny_model_formulas, dataset = freeny)
 #' freeny_model <- freeny_models[[length(freeny_models)]]
 #' checks <- assumptions_check(freeny_model)
-#' model_output(freeny_models, checks)
+#' model_output(freeny_models, checks, freeny_model_formulas)
 #' @export
-model_output <- function(models, checkList){
+model_output <- function(models, checkList=NULL, formulas){
   # Produces plots and prints relevant messages and outputs.
   options(scipen = 100, digits = 4)
+  if(!is.null(checkList)){
   model <- models[[length(models)]]
   cat("\n\nREGRESSION OUTPUT\n\n")
   cat("Durbin-Watson = ", checkList$Durbin.Watson, "p value = ", checkList$DW.p.value, "\n\n")
@@ -141,9 +148,10 @@ model_output <- function(models, checkList){
   cat("\nNormality of standardized model residuals:", " Shapiro-Wilk (p-value): ", checkList$Normality.Resids, "\n\n")
   plot(ppoints(length(MASS::stdres(model))), sort(checkList$Prob.Dist), main = "PP Plot", xlab = "Observed Probability", ylab = "Expected Probability")
   abline(0,1)
-  cat("Model change statistics\n\n")
+  }
   # Output tables
-  summary <- model_summary_table(models)
+  cat("Model change statistics\n\n")
+  summary <- model_summary_table(models, formulas)
   cat("\nModel Coefficients\n\n")
   coefficients <- model_coefficient_table(models)
   results <- list(Summary=summary, Coefficients=coefficients, Checks=checkList)
@@ -153,14 +161,15 @@ model_output <- function(models, checkList){
 #' Hierarchical regression: model summary output
 #'
 #' @param models A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.
+#' @param formulas Formula list produced by \code{create_formula_objects}.
 #' @details Creates table output to summarize model statistics for all models in a hierarchical regression analysis.
 #' @examples
 #' freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
 #' , c("price.index"))
 #' freeny_models <- create_model_objects(freeny_model_formulas, dataset = freeny)
-#' model_summary_table(freeny_models)
+#' model_summary_table(freeny_models, freeny_model_formulas)
 #' @export
-model_summary_table <- function(models) {
+model_summary_table <- function(models, formulas) {
   model_para_list <- list()
   model_para_list[[1]] <- list(
   summary(models[[1]])$r.squared,
@@ -200,6 +209,11 @@ model_summary_table <- function(models) {
   colnames(output_matrix) <- c("R", "R^2", "Adj R^2", "SE Est.", "Delta R^2", "F Change", "df1", "df2", "Sig F Change")
   rownames(output_matrix) <- unlist(model_labels)
   print(output_matrix, digits = 3)
+  ### testing block
+  for(i in 1:length(formulas)){
+    cat("Model", i, ":", deparse(formulas[[i]]), "\n")
+  }
+  ###
   output_matrix <- as.data.frame(output_matrix)
   Results <- list(R=output_matrix$R, R2=output_matrix$`R^2`, AdjR2=output_matrix$`Adj R^2`, SE=output_matrix$`SE Est.`, DeltaR2=output_matrix$`Delta R^2`, Fch=output_matrix$`F Change`, DF1=output_matrix$df1, DF2=output_matrix$df2, SigFch=output_matrix$`Sig F Change`)
   attr(Results$R, "names") <- rownames(output_matrix)

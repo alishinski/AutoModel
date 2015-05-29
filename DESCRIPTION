@@ -1,7 +1,7 @@
 Package: AutoModel
 Type: Package
 Title: Automated Hierarchical Multiple Regression with Assumptions Checking
-Version: 0.2.1
+Version: 0.2.2
 Date: 2015-05-19
 Author: Alex Lishinski
 Maintainer: Alex Lishinski <alexlishinski@gmail.com>
