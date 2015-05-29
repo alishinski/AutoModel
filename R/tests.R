@@ -11,7 +11,7 @@
 
 #head(mtcars)
 
-#run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars)
+#run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars, outliers.check = 10)
 #fasdf <- run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars, assumptions.check = F)
 #modelstuff <- run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars)
 #test_mod <- lm(y ~ lag.quarterly.revenue, data = freeny)

@@ -6,12 +6,13 @@
 #' @param dataset A data frame containing variables refered to in \code{formulas}, passed to data argument of \code{lm}
 #' @param type Family argument to pass to \code{glm}.  Specify "binomial" for binary logistic regression models.
 #' @param assumptions.check Boolean, if TRUE, then assumption checks are run and output is produced. If FALSE, only model summary and coefficient tables are produced.
+#' @param outliers.check Determines how many observations to display for outliers check.  Default is all observations.
 #' @param transform.outcome A boolean. If TRUE, a variable transformation of the outcome is substituted in the final model if outcome is non-normal. NOT IMPLEMENTED YET.
 #' @details Calls other functions to generate model objects and test them, given specified model parameters and other options.  Formatted output is produced via \code{model_output}
 #' @examples
 #' run_model("y", c("lag.quarterly.revenue"), c("price.index", "income.level"), dataset=freeny)
 #' @export
-run_model <- function(outcome, block1, ..., dataset, type="gaussian", assumptions.check = T, transform.outcome=F){
+run_model <- function(outcome, block1, ..., dataset, type="gaussian", assumptions.check = T, outliers.check = "all", transform.outcome=F){
   # Main function that calls the others to generate model objects, and test and summarize those model objects
   if(type == "binomial"){
     forms <- create_formula_objects(outcome, block1, ...)
@@ -22,8 +23,13 @@ run_model <- function(outcome, block1, ..., dataset, type="gaussian", assumption
   models <- create_model_objects(forms, dataset)
   top_model <- models[[length(models)]]
   if(assumptions.check == T) {
-  checks <- assumptions_check(top_model)
-  model_output(models, checks, forms)
+    if(outliers.check == "all") {
+    checks <- assumptions_check(top_model)
+    model_output(models, checks, forms)
+    } else {
+      checks <- assumptions_check(top_model)
+      model_output(models, checks, forms, outliers.check)
+    }
   } else {
     model_output(models, formulas=forms)
   }
@@ -121,7 +127,7 @@ assumptions_check <- function(model){
 #' checks <- assumptions_check(freeny_model)
 #' model_output(freeny_models, checks, freeny_model_formulas)
 #' @export
-model_output <- function(models, checkList=NULL, formulas){
+model_output <- function(models, checkList=NULL, formulas, outliers = "all"){
   # Produces plots and prints relevant messages and outputs.
   options(scipen = 100, digits = 4)
   if(!is.null(checkList)){
@@ -137,10 +143,19 @@ model_output <- function(models, checkList=NULL, formulas){
   cat("\nVariance inflation factor (<10 desired):\n\n")
   print(checkList$Var.Inf.Factor)
   cat("\nStandardized Residuals (observations > 3.00 problematic):\n\n")
-  res <- sort(abs(checkList$Stand.Residuals), decreasing = T)
+  if(outliers == "all") {
+    res <- sort(abs(checkList$Stand.Residuals), decreasing = T)
+  } else {
+    res <- sort(abs(checkList$Stand.Residuals), decreasing = T)[1:outliers]
+  }
   print(res)
   cat("\nCook's distance (values >.2 problematic):\n\n")
-  print(sort(checkList$Cooks.Dist, decreasing = T))
+  if(outliers == "all") {
+    cookd <- sort(checkList$Cooks.Dist, decreasing = T)
+  } else {
+    cookd <- sort(checkList$Cooks.Dist, decreasing = T)[1:outliers]
+  }
+  print(cookd)
   hist(checkList$Stand.Residuals, prob=T, breaks = 30, main = "Plot of Std Residuals", xlab="Std Residuals")
   distmean <- mean(MASS::stdres(model))
   distsd <- sd(MASS::stdres(model))
