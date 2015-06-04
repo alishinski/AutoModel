@@ -4,7 +4,7 @@
 \alias{model_output}
 \title{Multiple Regression Output}
 \usage{
-model_output(models, checkList = NULL, formulas, outliers = "all")
+model_output(models, checkList = NULL, formulas, outliers)
 }
 \arguments{
 \item{models}{A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.}

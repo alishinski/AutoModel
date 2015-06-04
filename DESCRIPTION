@@ -1,8 +1,8 @@
 Package: AutoModel
 Type: Package
 Title: Automated Hierarchical Multiple Regression with Assumptions Checking
-Version: 0.2.3
-Date: 2015-05-19
+Version: 0.2.4
+Date: 2015-06-03
 Author: Alex Lishinski
 Maintainer: Alex Lishinski <alexlishinski@gmail.com>
 Description: A set of functions that automates the process and produces reasonable output for hierarchical multiple regression models.  It allows you to specify predictor blocks, from which it generates all of the linear models, and checks the assumptions of the model, producing the requisite plots and statistics to allow you to judge the suitability of the model.
@@ -12,6 +12,7 @@ Depends:
   R (>= 3.1.3),
 Imports:
   lmtest,
+  dplyr,
   car,
   MASS,
   broom,

@@ -21,24 +21,14 @@ Eliminate the use of the modified lmSupport function, by replacing it with my ow
 Check the accuracy of partial regression plots (in fact, compare 1-1 with spss output for the same model) (will do some comparative checks with SPSS when all's said and done)
 Allow to select number of data points to display to check for outliers, with default value that is low.  Or allow to save as a variable (this should not be hard)
 Allow user to choose more Verbose names to be used in lieu of the column names for the output
+Only show the outlier values that are problematic
+AP paragraph option?  Template with blanks to fill in with data values for addition to output document
 
 MEGA TASK ::::::
 IS THERE A WAY TO MAKE KNITR OUTPUT DOCUMENTS PRETTY??????  
 IE. In lieu of the standard output tables in the code output windows, can I have a nicely formatted latex-y table ?
 (this is the thing that could become something big..., use to up my github profile)
+Can we
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For 
-
-```{r}
-summary(cars)
-write.csv(freeny, file="freeny.csv")
-```
-
-You can also embed plots, for example:
-
-```{r, echo=FALSE}
-plot(cars)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
+SIDE NOTE:
+IS there a knitr equivalent for python?  Is it just the ipython notebook?  Do they need an improved version?
