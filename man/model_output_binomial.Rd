@@ -2,7 +2,7 @@
 % Please edit documentation in R/runmodel.R
 \name{model_output_binomial}
 \alias{model_output_binomial}
-\title{Binary Logistic Regression: Model Summary Output}
+\title{Binary Logistic Regression: Model Output}
 \usage{
 model_output_binomial(models)
 }
@@ -10,14 +10,16 @@ model_output_binomial(models)
 \item{models}{A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.}
 }
 \description{
-Binary Logistic Regression: Model Summary Output
+Binary Logistic Regression: Model Output
 }
 \details{
 Creates output for results of hierarchical binary logisitic regression models.
 }
 \examples{
-formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"), c("drat"))
-mtcars_models <- create_model_objects(formulas, data=mtcars, type="binomial")
+formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"),
+c("drat"))
+mtcars_models <- create_model_objects(formulas, data=mtcars,
+type="binomial")
 model_output_binomial(mtcars_models)
 }
 

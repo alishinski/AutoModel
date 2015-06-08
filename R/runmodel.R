@@ -6,11 +6,12 @@
 #' @param dataset A data frame containing variables refered to in \code{formulas}, passed to data argument of \code{lm}
 #' @param type Family argument to pass to \code{glm}.  Specify "binomial" for binary logistic regression models.
 #' @param assumptions.check Boolean, if TRUE, then assumption checks are run and output is produced. If FALSE, only model summary and coefficient tables are produced.
-#' @param outliers.check Determines how many observations to display for outliers check.  Default is significant observations. "all" gives all observations.
+#' @param outliers.check Determines how many observations to display for outliers check.  Default is significant observations. "All" shows all residual and Cook's D values.
 #' @param transform.outcome A boolean. If TRUE, a variable transformation of the outcome is substituted in the final model if outcome is non-normal. NOT IMPLEMENTED YET.
 #' @details Calls other functions to generate model objects and test them, given specified model parameters and other options.  Formatted output is produced via \code{model_output}
 #' @examples
-#' run_model("y", c("lag.quarterly.revenue"), c("price.index", "income.level"), dataset=freeny)
+#' run_model("y", c("lag.quarterly.revenue"), c("price.index", "income.level"),
+#' dataset=freeny)
 #' @export
 run_model <- function(outcome, block1, ..., dataset, type="gaussian", assumptions.check = T, outliers.check = "significant", transform.outcome=F){
   # Main function that calls the others to generate model objects, and test and summarize those model objects
@@ -25,10 +26,10 @@ run_model <- function(outcome, block1, ..., dataset, type="gaussian", assumption
   if(assumptions.check == T) {
     if(outliers.check == "significant") {
     checks <- assumptions_check(top_model)
-    model_output(models, checks, forms, outliers = "significant")
+    model_output(models, dataset, checks, forms, outliers = "significant")
     } else {
       checks <- assumptions_check(top_model)
-      model_output(models, checks, forms, outliers = "all")
+      model_output(models, dataset, checks, forms, outliers = "all")
     }
   } else {
     model_output(models, formulas=forms)
@@ -44,7 +45,8 @@ run_model <- function(outcome, block1, ..., dataset, type="gaussian", assumption
 #' @return A list of \code{lm} formulas
 #' @examples
 #' create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index"))
-#' create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))
+#' create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index",
+#' "income.level"))
 #' @export
 create_formula_objects <- function(outcome, block1, ...){
   # Creates formulas for hierarchical models from blocks of predictors
@@ -72,8 +74,8 @@ create_formula_objects <- function(outcome, block1, ...){
 #' @param type Family argument to pass to \code{glm}.  Specify "binomial" for binary logistic regression models.
 #' @return A list of \code{lm} model objects
 #' @examples
-#' create_model_objects(create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index"))
-#' , dataset = freeny)
+#' create_model_objects(create_formula_objects("y", c("lag.quarterly.revenue")
+#' , c("price.index")), dataset = freeny)
 #' freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
 #' , c("price.index"))
 #' create_model_objects(freeny_model_formulas, dataset = freeny)
@@ -95,7 +97,8 @@ create_model_objects <- function(formulas, dataset, type="gaussian"){
 #' @examples
 #' freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
 #' , c("price.index"))
-#' freeny_models <- create_model_objects(freeny_model_formulas, dataset = freeny)
+#' freeny_models <- create_model_objects(freeny_model_formulas,
+#' dataset = freeny)
 #' freeny_model <- freeny_models[[length(freeny_models)]]
 #' assumptions_check(freeny_model)
 #' @export
@@ -116,19 +119,22 @@ assumptions_check <- function(model){
 #' Multiple Regression Output
 #'
 #' @param models A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.
+#' @param data The dataframe from which the model was built.
 #' @param checkList a list object created by \code{assumptions_check} used to create output.
 #' @param formulas Formula list produced by \code{create_formula_objects}, used for summary table.
 #' @param outliers Outlier option, select the number of observations to examine for outliers.
 #' @details Creates plots and text output to summarize models and check assumptions via objects created by \code{assumptions_check}.  Uses full model with all predictors.
 #' @examples
-#' freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
-#' , c("price.index"))
-#' freeny_models <- create_model_objects(freeny_model_formulas, dataset = freeny)
+#' freeny_model_formulas <- create_formula_objects("y",
+#' c("lag.quarterly.revenue"), c("price.index"))
+#' freeny_models <- create_model_objects(freeny_model_formulas,
+#' dataset = freeny)
 #' freeny_model <- freeny_models[[length(freeny_models)]]
 #' checks <- assumptions_check(freeny_model)
-#' model_output(freeny_models, checks, freeny_model_formulas)
+#' model_output(freeny_models, freeny, checks, freeny_model_formulas,
+#' outliers = "significant")
 #' @export
-model_output <- function(models, checkList=NULL, formulas, outliers){
+model_output <- function(models, data, checkList=NULL, formulas, outliers){
   # Produces plots and prints relevant messages and outputs.
   options(scipen = 100, digits = 4)
   if(!is.null(checkList)){
@@ -182,7 +188,7 @@ model_output <- function(models, checkList=NULL, formulas, outliers){
   summary <- model_summary_table(models, formulas)
   cat("\nModel Coefficients\n\n")
   coefficients <- model_coefficient_table(models)
-  results <- list(Summary=summary, Coefficients=coefficients, Checks=checkList)
+  results <- list(Summary=summary, Coefficients=coefficients, Checks=checkList, SummaryDF=as.data.frame(summary), CoefficientsDF=as.data.frame(coefficients))
   invisible(results)
 }
 
@@ -192,9 +198,10 @@ model_output <- function(models, checkList=NULL, formulas, outliers){
 #' @param formulas Formula list produced by \code{create_formula_objects}.
 #' @details Creates table output to summarize model statistics for all models in a hierarchical regression analysis.
 #' @examples
-#' freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
-#' , c("price.index"))
-#' freeny_models <- create_model_objects(freeny_model_formulas, dataset = freeny)
+#' freeny_model_formulas <- create_formula_objects("y",
+#' c("lag.quarterly.revenue"), c("price.index"))
+#' freeny_models <- create_model_objects(freeny_model_formulas,
+#' dataset = freeny)
 #' model_summary_table(freeny_models, freeny_model_formulas)
 #' @export
 model_summary_table <- function(models, formulas) {
@@ -237,13 +244,14 @@ model_summary_table <- function(models, formulas) {
   colnames(output_matrix) <- c("R", "R^2", "Adj R^2", "SE Est.", "Delta R^2", "F Change", "df1", "df2", "Sig F Change")
   rownames(output_matrix) <- unlist(model_labels)
   print(output_matrix, digits = 3)
-  ### testing block
+  forms <- c()
   for(i in 1:length(formulas)){
     cat("Model", i, ":", deparse(formulas[[i]]), "\n")
+    form <- paste(deparse(formulas[[i]]))
+    forms <- c(forms, form)
   }
-  ###
   output_matrix <- as.data.frame(output_matrix)
-  Results <- list(R=output_matrix$R, R2=output_matrix$`R^2`, AdjR2=output_matrix$`Adj R^2`, SE=output_matrix$`SE Est.`, DeltaR2=output_matrix$`Delta R^2`, Fch=output_matrix$`F Change`, DF1=output_matrix$df1, DF2=output_matrix$df2, SigFch=output_matrix$`Sig F Change`)
+  Results <- list(R=output_matrix$R, R2=output_matrix$`R^2`, AdjR2=output_matrix$`Adj R^2`, SE=output_matrix$`SE Est.`, DeltaR2=output_matrix$`Delta R^2`, Fch=output_matrix$`F Change`, DF1=output_matrix$df1, DF2=output_matrix$df2, SigFch=output_matrix$`Sig F Change`, Formula=forms)
   attr(Results$R, "names") <- rownames(output_matrix)
   attr(Results$R2, "names") <- rownames(output_matrix)
   attr(Results$AdjR2, "names") <- rownames(output_matrix)
@@ -263,7 +271,8 @@ model_summary_table <- function(models, formulas) {
 #' @examples
 #' freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
 #' , c("price.index"))
-#' freeny_models <- create_model_objects(freeny_model_formulas, dataset = freeny)
+#' freeny_models <- create_model_objects(freeny_model_formulas,
+#' dataset = freeny)
 #' model_coefficient_table(freeny_models)
 #' @export
 model_coefficient_table <- function(models){
@@ -282,30 +291,110 @@ model_coefficient_table <- function(models){
   invisible(results)
 }
 
-#' Binary Logistic Regression: Model Summary Output
+#' Binary Logistic Regression: Model Output
 #'
 #' @param models A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.
 #' @details Creates output for results of hierarchical binary logisitic regression models.
 #' @examples
-#' formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"), c("drat"))
-#' mtcars_models <- create_model_objects(formulas, data=mtcars, type="binomial")
+#' formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"),
+#' c("drat"))
+#' mtcars_models <- create_model_objects(formulas, data=mtcars,
+#' type="binomial")
 #' model_output_binomial(mtcars_models)
 #' @export
 model_output_binomial <- function(models) {
-  model_summary_table_binomial(models)
-  #model_coefficient_table_binomial(models)
+  cat("\nModel Summary Table: Pseudo R^2\n\n")
+  summary <- model_summary_table_binomial(models)
+  cat("\nModel Coefficient Table\n\n")
+  coefficients <- model_coefficient_table_binomial(models)
+  full_model <- models[[length(models)]]
+  response <- full_model$model[,1]
+  cat("\nClassification Table\n\n")
+  class_table <- classification_table(full_model, response)
+  results <- list(Summary=summary, Coefficients=coefficients, Class_Table=class_table)
+  invisible(results)
 }
 
-#' Binary Logistic Regression: Summary Table Output
+#' Binary Logistic Regression: Classification Table
+#'
+#' @param model A binary logistic regression model object.
+#' @param response The dependent variable in \code{model}.
+#' @details Creates classification table for binary logistic regresison model using optimal cut point for accuracy.
+#' @examples
+#' formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"),
+#' c("drat"))
+#' mtcars_models <- create_model_objects(formulas, data=mtcars,
+#' type="binomial")
+#' last_model <- mtcars_models[[length(mtcars_models)]]
+#' classification_table(last_model, last_model$model[,1])
+#' @export
+classification_table <- function(model, response){
+  frame <- dplyr::arrange(data.frame(predict.glm(model), response), dplyr::desc(predict.glm(model)))
+  predictor <- ROCR::prediction(predict.glm(model), response)
+  accuracy <- ROCR::performance(predictor, measure = "acc")
+  cutpoint <- which.max(accuracy@y.values[[1]])
+  cutpoint
+  frame$cut <- NA
+  for(i in 1:cutpoint){
+    frame$cut[i] <- 1
+  }
+  for(i in (cutpoint+1):nrow(frame)){
+    frame$cut[i] <- 0
+  }
+  predone <- frame[0:cutpoint,]
+  predzero <- frame[(cutpoint + 1):nrow(frame),]
+  totp <- nrow(predone)
+  totn <- nrow(predzero)
+  tp <- nrow(dplyr::filter(predone, response == 1))
+  fp <- totp - tp
+  tn <- nrow(dplyr::filter(predzero, response == 0))
+  fn <- totn - tn
+  specificity <- tp / totp
+  sensitivity <- tn / totn
+  tot_accuracy <- (tp + tn) / (totp + totn)
+  tabs <- table(frame$cut, frame$response, dnn = c("Predict", "Actual"))
+  print(tabs)
+  cat("Specificity: ", specificity, "\n")
+  cat("Sensitivity: ", sensitivity, "\n")
+  cat("Total Accuracy: ", tot_accuracy, "\n")
+  table <- as.data.frame(tabs)
+}
+
+#' Binary Logistic Regression: Model Summary Output
+#'
+#' @param models A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.
+#' @details Creates summary table with pseudo R^2 values for the binary logistic regression model objects
+#' @examples
+#' formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"),
+#' c("drat"))
+#' mtcars_models <- create_model_objects(formulas, data=mtcars,
+#' type="binomial")
+#' last_model <- mtcars_models[[length(mtcars_models)]]
+#' @export
+model_summary_table_binomial <- function(models){
+  output_matrix <- matrix(nrow = length(models), ncol = 4)
+  model_labels <- list()
+  for(i in 1:length(models)){
+  output_matrix[i,] <- BaylorEdPsych::PseudoR2(models[[i]])[1:4]
+  model_labels[[i]] <- as.character(paste("Model", i))
+  }
+  colnames(output_matrix) <- c("McFadden's", "Adj McFadden's", "Cox-Snell", "Nagelkerke")
+  rownames(output_matrix) <- unlist(model_labels)
+  print(output_matrix)
+}
+
+#' Binary Logistic Regression: Coefficient Table Output
 #'
 #' @param models A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.
 #' @details Creates table output to summarize model coefficients for all models in a hierarchical binary logistic regression analysis.
 #' @examples
-#' formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"), c("drat"))
-#' mtcars_models <- create_model_objects(formulas, data=mtcars, type="binomial")
+#' formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"),
+#' c("drat"))
+#' mtcars_models <- create_model_objects(formulas, data=mtcars,
+#' type="binomial")
 #' \dontrun{model_summary_table_binomial(mtcars_models)}
 #' @export
-model_summary_table_binomial <- function(models){
+model_coefficient_table_binomial <- function(models){
   full_model <- models[[length(models)]]
   full_model_summary <- summary(full_model)
   full_model_table <- broom::tidy(full_model)
@@ -325,7 +414,7 @@ model_summary_table_binomial <- function(models){
    }
    output_table <- data.frame(output_table, df)
   }
-  output_table
+  print(output_table)
 }
 
 #' Modified modelCompare function from lmSupport package.  Modified to suppress print output.

@@ -21,7 +21,7 @@ run_model(outcome, block1, ..., dataset, type = "gaussian",
 
 \item{assumptions.check}{Boolean, if TRUE, then assumption checks are run and output is produced. If FALSE, only model summary and coefficient tables are produced.}
 
-\item{outliers.check}{Determines how many observations to display for outliers check.  Default is significant observations. "all" gives all observations.}
+\item{outliers.check}{Determines how many observations to display for outliers check.  Default is significant observations. "All" shows all residual and Cook's D values.}
 
 \item{transform.outcome}{A boolean. If TRUE, a variable transformation of the outcome is substituted in the final model if outcome is non-normal. NOT IMPLEMENTED YET.}
 }
@@ -32,6 +32,7 @@ Automated Multiple Regression Modelling
 Calls other functions to generate model objects and test them, given specified model parameters and other options.  Formatted output is produced via \code{model_output}
 }
 \examples{
-run_model("y", c("lag.quarterly.revenue"), c("price.index", "income.level"), dataset=freeny)
+run_model("y", c("lag.quarterly.revenue"), c("price.index", "income.level"),
+dataset=freeny)
 }
 

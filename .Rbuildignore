@@ -1,9 +1,7 @@
-^.*\.Rproj$
-^\.Rproj\.user$
+^R/tests\.R$
 ^\.RData$
 ^\.Rhistory$
-^\miscellany.R$
-^\tests.R$
-^\tabletest.Rmd$
-^packrat/
-^\.Rprofile$
+R/tests.R
+^.*\.Rproj$
+^\.Rproj\.user$
+^/packrat$

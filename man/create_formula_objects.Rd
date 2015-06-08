@@ -21,6 +21,7 @@ Hierarchical Formula Generation
 }
 \examples{
 create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index"))
-create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index", "income.level"))
+create_formula_objects("y", c("lag.quarterly.revenue"), c("price.index",
+"income.level"))
 }
 

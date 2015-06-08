@@ -2,7 +2,7 @@
 % Please edit documentation in R/runmodel.R
 \name{model_summary_table_binomial}
 \alias{model_summary_table_binomial}
-\title{Binary Logistic Regression: Summary Table Output}
+\title{Binary Logistic Regression: Model Summary Output}
 \usage{
 model_summary_table_binomial(models)
 }
@@ -10,14 +10,16 @@ model_summary_table_binomial(models)
 \item{models}{A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.}
 }
 \description{
-Binary Logistic Regression: Summary Table Output
+Binary Logistic Regression: Model Summary Output
 }
 \details{
-Creates table output to summarize model coefficients for all models in a hierarchical binary logistic regression analysis.
+Creates summary table with pseudo R^2 values for the binary logistic regression model objects
 }
 \examples{
-formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"), c("drat"))
-mtcars_models <- create_model_objects(formulas, data=mtcars, type="binomial")
-\dontrun{model_summary_table_binomial(mtcars_models)}
+formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"),
+c("drat"))
+mtcars_models <- create_model_objects(formulas, data=mtcars,
+type="binomial")
+last_model <- mtcars_models[[length(mtcars_models)]]
 }
 

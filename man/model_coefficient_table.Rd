@@ -18,7 +18,8 @@ Creates table output to summarize model coefficients for all models in a hierarc
 \examples{
 freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")
 , c("price.index"))
-freeny_models <- create_model_objects(freeny_model_formulas, dataset = freeny)
+freeny_models <- create_model_objects(freeny_model_formulas,
+dataset = freeny)
 model_coefficient_table(freeny_models)
 }
 
