@@ -41,6 +41,11 @@ add input checking to avoid these problems
 revise and clean up everything so that there is nothing extraneous in the package build or in the actual important files.  Consider dividing the main file into at least 2 if not 3 files.
 
 
+```{r}
+freeny
+```
+
+
 MEGA TASK ::::::
 IS THERE A WAY TO MAKE KNITR OUTPUT DOCUMENTS PRETTY??????  
 IE. In lieu of the standard output tables in the code output windows, can I have a nicely formatted latex-y table ?

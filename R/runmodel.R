@@ -406,10 +406,17 @@ model_coefficient_table_binomial <- function(models){
    model_table <- broom::tidy(models[[i]])
    coefs <- model_table$estimate
    SE <- model_table$std.error
-   df <- data.frame(coefs, SE)
+   wald <- c()
+   p.value <- c()
+   for(j in 1:length(SE)){
+   wald.value <- aod::wald.test(Sigma = vcov(models[[i]]), b = coef(models[[i]]), Terms = j)
+   wald <- c(wald, wald.value$result$chi2[1])
+   p.value <- c(p.value, wald.value$result$chi2[3])
+   }
+   df <- data.frame(coefs, SE, wald, p.value)
    if(nrow(df) < nrow(full_model_table)){
    for(i in seq((nrow(df) + 1), (nrow(full_model_table)))){
-     df <- rowr::insertRows(df, data.frame(list('--', '--')), i)
+     df <- rowr::insertRows(df, data.frame(list('--', '--', '--', '--')), i)
    }
    }
    output_table <- data.frame(output_table, df)

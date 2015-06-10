@@ -9,11 +9,14 @@
 #model_summary_table_binomial(moduls)
 
 #head(mtcars)
-
-#model <- run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars, outliers.check = "significant")
-
-# model <- run_model("am", c("disp", "hp"), c("cyl", "wt"), dataset = mtcars, type="binomial")
-# ?table
+#
+# model <- run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars, outliers.check = "significant")
+#
+# install.packages("aod")
+# library(aod)
+#
+#model <- run_model("am", c("disp", "hp"), c("cyl", "wt"), dataset = mtcars, type="binomial")
+# # ?table
 # ?xtabs
 # xtabs(cbind(ncases, ncontrols) ~ ., data = esoph)
 # xtabs()
@@ -56,7 +59,16 @@
 #mtcars
 #run_model("am", c("disp", "hp"), c("drat", "wt"), dataset = mtcars, type = "binomial")
 #binmod <- glm(am ~ disp + hp, data = mtcars, family = "binomial")
+#
 # summary(binmod)
+#
+#
+#  wald <- wald.test(Sigma = vcov(binmod), b = coef(binmod), Terms = 3)
+#  c(wald$result$chi2[1], wald$result$chi2[3])
+# wald
+#  # pchisq(.065, 1)
+# length(attr(binmod$model, "terms"))
+# # summary(binmod)
 # binmod
 # bhead(mtcars)
 # glm()
