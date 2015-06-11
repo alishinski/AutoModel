@@ -7,11 +7,14 @@
 create_model_objects(formulas, dataset, type = "gaussian")
 }
 \arguments{
-\item{formulas}{A set of \code{lm} formulas, created with create_formula_objects}
+\item{formulas}{A set of \code{lm} formulas, created with
+create_formula_objects}
 
-\item{dataset}{A data frame containing variables refered to in \code{formulas}, passed to data argument of \code{lm}}
+\item{dataset}{A data frame containing variables refered to in
+\code{formulas}, passed to data argument of \code{lm}}
 
-\item{type}{Family argument to pass to \code{glm}.  Specify "binomial" for binary logistic regression models.}
+\item{type}{Family argument to pass to \code{glm}.  Specify "binomial" for
+binary logistic regression models.}
 }
 \value{
 A list of \code{lm} model objects

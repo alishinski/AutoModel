@@ -9,9 +9,11 @@ create_formula_objects(outcome, block1, ...)
 \arguments{
 \item{outcome}{The dependent variable of the hierarchical model}
 
-\item{block1}{A character vector, with names of variables. The first block of independent variables.}
+\item{block1}{A character vector, with names of variables. The first block of
+independent variables.}
 
-\item{...}{A character vector, with names of variables. Subsequent blocks of independent variables.}
+\item{...}{A character vector, with names of variables. Subsequent blocks of
+independent variables.}
 }
 \value{
 A list of \code{lm} formulas

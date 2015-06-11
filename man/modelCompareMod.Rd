@@ -2,7 +2,8 @@
 % Please edit documentation in R/runmodel.R
 \name{modelCompareMod}
 \alias{modelCompareMod}
-\title{Modified modelCompare function from lmSupport package.  Modified to suppress print output.}
+\title{Modified modelCompare function from lmSupport package.  Modified to suppress
+print output.}
 \usage{
 modelCompareMod(ModelC, ModelA, printOutput = T)
 }
@@ -11,12 +12,15 @@ modelCompareMod(ModelC, ModelA, printOutput = T)
 
 \item{ModelA}{A model \code{lm} object.}
 
-\item{printOutput}{Boolean parameter, if \code{TRUE}, print output is supressed from modelCompare function.}
+\item{printOutput}{Boolean parameter, if \code{TRUE}, print output is
+supressed from modelCompare function.}
 }
 \description{
-Modified modelCompare function from lmSupport package.  Modified to suppress print output.
+Modified modelCompare function from lmSupport package.  Modified to suppress
+print output.
 }
 \details{
-This is a modification of the modelCompare function that allows print output to be suppressed.
+This is a modification of the modelCompare function that allows
+  print output to be suppressed.
 }
 

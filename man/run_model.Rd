@@ -11,25 +11,37 @@ run_model(outcome, block1, ..., dataset, type = "gaussian",
 \arguments{
 \item{outcome}{The dependent variable of the hierarchical model}
 
-\item{block1}{A character vector, with names of variables. The first block of independent variables.}
+\item{block1}{A character vector, with names of variables. The first block of
+independent variables.}
 
-\item{...}{A character vector, with names of variables. Subsequent blocks of independent variables.}
+\item{...}{A character vector, with names of variables. Subsequent blocks of
+independent variables.}
 
-\item{dataset}{A data frame containing variables refered to in \code{formulas}, passed to data argument of \code{lm}}
+\item{dataset}{A data frame containing variables refered to in
+\code{formulas}, passed to data argument of \code{lm}}
 
-\item{type}{Family argument to pass to \code{glm}.  Specify "binomial" for binary logistic regression models.}
+\item{type}{Family argument to pass to \code{glm}.  Specify "binomial" for
+binary logistic regression models.}
 
-\item{assumptions.check}{Boolean, if TRUE, then assumption checks are run and output is produced. If FALSE, only model summary and coefficient tables are produced.}
+\item{assumptions.check}{Boolean, if TRUE, then assumption checks are run and
+output is produced. If FALSE, only model summary and coefficient tables are
+produced.}
 
-\item{outliers.check}{Determines how many observations to display for outliers check.  Default is significant observations. "All" shows all residual and Cook's D values.}
+\item{outliers.check}{Determines how many observations to display for
+outliers check.  Default is significant observations. "All" shows all
+residual and Cook's D values.}
 
-\item{transform.outcome}{A boolean. If TRUE, a variable transformation of the outcome is substituted in the final model if outcome is non-normal. NOT IMPLEMENTED YET.}
+\item{transform.outcome}{A boolean. If TRUE, a variable transformation of the
+outcome is substituted in the final model if outcome is non-normal. NOT
+IMPLEMENTED YET.}
 }
 \description{
 Automated Multiple Regression Modelling
 }
 \details{
-Calls other functions to generate model objects and test them, given specified model parameters and other options.  Formatted output is produced via \code{model_output}
+Calls other functions to generate model objects and test them, given
+  specified model parameters and other options.  Formatted output is produced
+  via \code{model_output}
 }
 \examples{
 run_model("y", c("lag.quarterly.revenue"), c("price.index", "income.level"),

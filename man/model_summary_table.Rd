@@ -7,7 +7,8 @@
 model_summary_table(models, formulas)
 }
 \arguments{
-\item{models}{A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.}
+\item{models}{A list of \code{lm} model objects.  A set of model objects
+created by \code{create_model_object}.}
 
 \item{formulas}{Formula list produced by \code{create_formula_objects}.}
 }
@@ -15,7 +16,8 @@ model_summary_table(models, formulas)
 Hierarchical regression: model summary output
 }
 \details{
-Creates table output to summarize model statistics for all models in a hierarchical regression analysis.
+Creates table output to summarize model statistics for all models in
+  a hierarchical regression analysis.
 }
 \examples{
 freeny_model_formulas <- create_formula_objects("y",

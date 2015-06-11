@@ -7,13 +7,15 @@
 model_coefficient_table(models)
 }
 \arguments{
-\item{models}{A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.}
+\item{models}{A list of \code{lm} model objects.  A set of model objects
+created by \code{create_model_object}.}
 }
 \description{
 Hierarchical regression: Coefficient table output
 }
 \details{
-Creates table output to summarize model coefficients for all models in a hierarchical regression analysis.
+Creates table output to summarize model coefficients for all models
+  in a hierarchical regression analysis.
 }
 \examples{
 freeny_model_formulas <- create_formula_objects("y", c("lag.quarterly.revenue")

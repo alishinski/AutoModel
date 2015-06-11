@@ -7,13 +7,15 @@
 model_summary_table_binomial(models)
 }
 \arguments{
-\item{models}{A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.}
+\item{models}{A list of \code{lm} model objects.  A set of model objects
+created by \code{create_model_object}.}
 }
 \description{
 Binary Logistic Regression: Model Summary Output
 }
 \details{
-Creates summary table with pseudo R^2 values for the binary logistic regression model objects
+Creates summary table with pseudo R^2 values for the binary logistic
+  regression model objects
 }
 \examples{
 formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"),

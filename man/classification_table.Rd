@@ -15,7 +15,8 @@ classification_table(model, response)
 Binary Logistic Regression: Classification Table
 }
 \details{
-Creates classification table for binary logistic regresison model using optimal cut point for accuracy.
+Creates classification table for binary logistic regresison model
+  using optimal cut point for accuracy.
 }
 \examples{
 formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"),

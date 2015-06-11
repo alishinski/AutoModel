@@ -7,13 +7,15 @@
 model_output_binomial(models)
 }
 \arguments{
-\item{models}{A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.}
+\item{models}{A list of \code{lm} model objects.  A set of model objects
+created by \code{create_model_object}.}
 }
 \description{
 Binary Logistic Regression: Model Output
 }
 \details{
-Creates output for results of hierarchical binary logisitic regression models.
+Creates output for results of hierarchical binary logisitic
+  regression models.
 }
 \examples{
 formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"),

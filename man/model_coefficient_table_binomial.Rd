@@ -7,13 +7,15 @@
 model_coefficient_table_binomial(models)
 }
 \arguments{
-\item{models}{A list of \code{lm} model objects.  A set of model objects created by \code{create_model_object}.}
+\item{models}{A list of \code{lm} model objects.  A set of model objects
+created by \code{create_model_object}.}
 }
 \description{
 Binary Logistic Regression: Coefficient Table Output
 }
 \details{
-Creates table output to summarize model coefficients for all models in a hierarchical binary logistic regression analysis.
+Creates table output to summarize model coefficients for all models
+  in a hierarchical binary logistic regression analysis.
 }
 \examples{
 formulas <- create_formula_objects("am", c("hp", "mpg"), c("disp"),

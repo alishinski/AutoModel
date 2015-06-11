@@ -9,9 +9,14 @@
 #model_summary_table_binomial(moduls)
 
 #head(mtcars)
+#model <- run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars, outliers.check = "significant")
 #
-# model <- run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars, outliers.check = "significant")
-#
+
+
+
+# install.packages("gtools")
+# library(gtools)
+# stars.pval(c(.05, .04, .03, .01, .01, .001, .00001))
 # install.packages("aod")
 # library(aod)
 #
@@ -56,6 +61,7 @@
 #RR <- "fasfd"
 #RR
 
+
 #mtcars
 #run_model("am", c("disp", "hp"), c("drat", "wt"), dataset = mtcars, type = "binomial")
 #binmod <- glm(am ~ disp + hp, data = mtcars, family = "binomial")
@@ -74,6 +80,7 @@
 # glm()
 # model1 <- lm(disp ~ hp + wt, data = mtcars)
 # model2 <- lm(disp ~ hp + am + drat, data = mtcars)
+# model2$coefficients
 # modelCompare(model1, model2)
 #
 # diff

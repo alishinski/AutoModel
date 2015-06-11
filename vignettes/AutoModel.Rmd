@@ -95,7 +95,7 @@ sum_table <- xtable(model$Summary)
 coef_table <- xtable(model$Coefficients)
 class_table <- xtable(model$Class_Table)
 print(sum_table, type="html")
-print(coef_table, type="html")
+print(coef_table, type="html", digits = 4)
 print(class_table, type="html")
 ```
 

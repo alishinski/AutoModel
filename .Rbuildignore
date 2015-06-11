@@ -5,3 +5,8 @@ R/tests.R
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^/packrat$
+^R/package dev notes\.Rmd$
+^R/package dev notes\.html$
+^\.git$
+^\.gitignore$
+^\.Rdata$

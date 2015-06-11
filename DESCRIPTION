@@ -1,7 +1,7 @@
 Package: AutoModel
 Type: Package
 Title: Automated Hierarchical Multiple Regression with Assumptions Checking
-Version: 0.4.1
+Version: 0.4.2
 Date: 2015-06-04
 Author: Alex Lishinski
 Maintainer: Alex Lishinski <alexlishinski@gmail.com>
@@ -19,7 +19,8 @@ Imports:
   ROCR,
   dplyr,
   BaylorEdPsych,
-  aod
+  aod,
+  gtools
 URL: https://github.com/alishinski/AutoModel
 Suggests: knitr, xtable
 VignetteBuilder: knitr
