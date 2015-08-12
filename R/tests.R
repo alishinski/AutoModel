@@ -10,8 +10,65 @@
 
 #head(mtcars)
 #model <- run_model("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"), dataset=mtcars, outliers.check = "significant")
+# #
+#model$SummaryDF$Formula
+# # create_formula_objects("mpg", c("disp", "hp"), c("cyl", "wt"), c("drat", "qsec"))
 #
-
+# # library(haven)
+# # library(AutoModel)
+# library(xtable)
+# #
+# # getwd()
+# # linux_path = "/media/alex/Windows8_OS/Documents\ and\ Settings/Alex/Documents/R/"
+# # setwd(linux_path)
+# #
+# hcdata <- read_sav(path = "C:/Users/Alex/Documents/R/HC v. All MSU Dataset Deidentified ACTRedone.sav")
+# # #
+# modeld <- run_model("CumGPAendmostrecentUNterm", c("gndr_flag", "ageatmatriculation"), c("HSGPA", "incomingcreditstotal", "Best_ACT_Comp"), c("MTHPlacement2", "honorspart"), dataset = hcdata)
+# #
+# # xtable(modeld$SummaryDF[1:10])
+# xtable(as.data.frame(modeld$SummaryDF$Formula))
+# modeld$SummaryDF$Formula
+# length()
+#
+# print.xtable()
+# listserv <- function(list){
+#
+# }
+# #this could be important for autocompleteing models
+# switch()
+# )
+#
+# formulas <- create_formula_objects("CumGPAendmostrecentUNterm", c("gndr_flag", "ageatmatriculation"), c("HSGPA", "incomingcreditstotal", "Best_ACT_Comp"), c("MTHPlacement2", "honorspart"))
+#
+# forms <- c()
+# for(i in 1:length(formulas)){
+#   #forms <- c()
+#   #cat("Model", i, ":", deparse(formulas[[i]]))
+#   form <- paste(deparse(formulas[[i]], width.cutoff = 500))
+#   forms <- c(forms, form)
+#   print(forms)
+# }
+# paste()
+# form
+# forms
+# cat("Model", 1, ":", deparse(formulas[[1]]))
+# form <- paste(deparse(formulas[[1]]))
+# forms <- c(forms, form)
+# form
+# forms
+# cat("Model", 2, ":", deparse(formulas[[2]]))
+# form <- paste()
+# deparse(formulas[[2]], width.cutoff = 500)
+# forms <- c(forms, form)
+# form
+# forms
+# cat("Model", 3, ":", deparse(formulas[[3]]))
+# form <- paste(deparse(formulas[[3]]))
+# forms <- c(forms, form)
+# form
+# forms
+# length(forms)
 
 
 # install.packages("gtools")
