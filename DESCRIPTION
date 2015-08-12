@@ -5,7 +5,7 @@ Version: 0.4.9
 Date: 2015-08-12
 Author: Alex Lishinski
 Maintainer: Alex Lishinski <alexlishinski@gmail.com>
-Description: A set of functions that automates the process and produces reasonable output for hierarchical multiple regression models.  It allows you to specify predictor blocks, from which it generates all of the linear models, and checks the assumptions of the model, producing the requisite plots and statistics to allow you to judge the suitability of the model.
+Description: A set of functions to automate the process and produce reasonable output for hierarchical multiple regression models.  The user specifies predictor blocks, from which the functions generate all of the linear models, and provides output enabling the user to check the assumptions of the overall model.  Binary logistic regression models are supported in addition to standard linear models.
 License: GPL-3
 LazyData: TRUE
 Depends:
