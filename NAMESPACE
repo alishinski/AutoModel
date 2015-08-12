@@ -12,3 +12,9 @@ export(model_output_binomial)
 export(model_summary_table)
 export(model_summary_table_binomial)
 export(run_model)
+
+importFrom("graphics", "abline", "hist", "plot")
+importFrom("stats", "as.formula", "coef", "cooks.distance", "cor",
+             "glm", "lm", "model.frame", "na.omit", "pf", "pnorm",
+             "ppoints", "predict", "predict.glm", "residuals", "sd",
+             "shapiro.test", "terms", "vcov")

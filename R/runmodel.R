@@ -462,8 +462,9 @@ model_coefficient_table_binomial <- function(models){
   full_model <- models[[length(models)]]
   full_model_summary <- summary(full_model)
   full_model_table <- broom::tidy(full_model)
-  model_terms <- attr(full_model_summary$terms, "term.labels")
-  model_terms <- c("Constant", model_terms)
+  #model_terms <- attr(full_model_summary$terms, "term.labels")
+  #model_terms <- c("Constant", model_terms)
+  model_terms <- attr(full_model$coefficients, "names")
   output_table <- data.frame(model_terms)
   for(i in 1:length(models)){
    model_summary <- summary(models[[i]])
@@ -488,6 +489,7 @@ model_coefficient_table_binomial <- function(models){
    output_table <- data.frame(output_table, df)
   }
   print(output_table, digits = 4)
+  #print(df, digits = 4)
 }
 
 #' Modified modelCompare function from lmSupport package.  Modified to suppress

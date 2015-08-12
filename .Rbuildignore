@@ -10,3 +10,7 @@ R/tests.R
 ^\.git$
 ^\.gitignore$
 ^\.Rdata$
+^AutoModel\.Rproj$
+^/R/tests\.R$
+^\.Rbuildignore$
+^/R/package dev notes\.Rmd$
